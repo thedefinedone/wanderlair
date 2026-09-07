@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23151210'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23d4b08c' stroke='%23a0826a' stroke-width='3'/%3E%3Ctext x='16' y='21' font-size='13' font-family='serif' font-weight='bold' fill='%23151210' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E" />
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
+  /* ===== full CSS (unchanged from previous version) ===== */
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { background-color:#151210; color:#ede6db; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased; }
@@ -122,11 +123,14 @@
   .fbtn { font-family:system-ui, sans-serif; font-weight:600; font-size:11px; letter-spacing:0.04em; color:#9a8b7a; border:1px solid #2c2620; background-color:#1a1613; padding:8px 14px; border-radius:40px; transition:0.12s; }
   .fbtn:hover { color:#ede6db; border-color:#3a322a; }
   .fbtn.on { background-color:#d4b08c; color:#151210; border-color:#d4b08c; }
+  .search-row { display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
+  .search-input { background-color:#1a1613; border:1px solid #2c2620; border-radius:40px; padding:8px 16px; color:#ede6db; font-size:14px; flex:1; min-width:160px; }
+  .search-input:focus { outline:none; border-color:#d4b08c; }
   .dest-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:20px; }
-  .dest { text-align:left; background-color:#1a1613; border:1px solid #2c2620; border-radius:14px; padding:0 0 14px; transition:0.15s; color:#ede6db; display:flex; flex-direction:column; }
+  .dest { text-align:left; background-color:#1a1613; border:1px solid #2c2620; border-radius:14px; padding:0 0 14px; transition:0.15s; color:#ede6db; display:flex; flex-direction:column; position:relative; }
   .dest:hover { border-color:#3a322a; transform:translateY(-4px); background-color:#201c18; }
   .dest-img { position:relative; display:block; }
-  .dest-img img { width:100%; height:140px; object-fit:cover; border-radius:14px 14px 0 0; border-bottom:1px solid #2c2620; }
+  .dest-img img { width:100%; height:140px; object-fit:cover; border-radius:14px 14px 0 0; border-bottom:1px solid #2c2620; background-color:#2c2620; }
   .dest-cat { position:absolute; top:8px; left:8px; font-family:system-ui, sans-serif; font-weight:600; font-size:9px; background-color:#d46a4a; color:#151210; padding:4px 10px; border-radius:40px; letter-spacing:0.04em; }
   .dest-name { font-family:Georgia, serif; font-weight:600; font-size:16px; color:#d4b08c; padding:12px 14px 2px; }
   .dest-tag { color:#9a8b7a; font-size:13px; letter-spacing:0.02em; padding:0 14px 10px; }
@@ -139,6 +143,10 @@
   .dest-foot .cn { width:12px; height:12px; border-radius:50%; background-color:#3a322a; display:inline-block; }
   .dest-foot .cn.on { background-color:#d4b08c; }
   .avg { font-family:system-ui, sans-serif; font-weight:600; font-size:12px; color:#d4b08c; margin-left:auto; }
+  .dest-actions { display:flex; gap:8px; padding:8px 14px 0; justify-content:flex-end; }
+  .dest-actions button { width:32px; height:32px; border-radius:40px; border:1px solid #3a322a; display:grid; place-items:center; color:#9a8b7a; transition:0.12s; }
+  .dest-actions button:hover { border-color:#d4b08c; color:#d4b08c; background-color:#1a1613; }
+  .dest-actions .saved { border-color:#d46a4a; color:#d46a4a; background-color:rgba(212,106,74,0.15); }
   .empty-msg { color:#5f5242; padding:40px 0; text-align:center; font-size:18px; letter-spacing:0.04em; }
   .d-head { display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:22px; }
   .badge { font-family:system-ui, sans-serif; font-weight:600; font-size:10px; padding:5px 12px; border-radius:40px; letter-spacing:0.04em; text-transform:uppercase; }
@@ -146,7 +154,7 @@
   .badge.ca { background-color:#d4b08c; color:#151210; }
   .d-tag { color:#9a8b7a; font-size:15px; letter-spacing:0.03em; }
   .d-cols { display:grid; grid-template-columns:340px 1fr; gap:24px; align-items:start; }
-  .d-photo { width:100%; height:220px; object-fit:cover; border-radius:14px; border:1px solid #2c2620; }
+  .d-photo { width:100%; height:220px; object-fit:cover; border-radius:14px; border:1px solid #2c2620; background-color:#2c2620; }
   .stat-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:14px; }
   .stat-row em { font-style:normal; width:100px; color:#9a8b7a; flex:none; letter-spacing:0.02em; font-size:12px; }
   .stat-row .bar { height:6px; background-color:#2c2620; border-radius:20px; flex:1; overflow:hidden; }
@@ -198,6 +206,21 @@
   .foot-line { color:#5f5242; font-size:13px; letter-spacing:0.03em; margin-bottom:8px; }
   #resetBtn { font-family:system-ui, sans-serif; font-weight:500; font-size:12px; color:#d46a4a; border:1px solid #3a322a; padding:6px 14px; border-radius:40px; transition:0.12s; }
   #resetBtn:hover { background-color:#d46a4a; color:#151210; border-color:#d46a4a; }
+  .hud-shortlist { position:relative; }
+  .hud-shortlist .badge-count { position:absolute; top:-6px; right:-6px; background:#d46a4a; color:#151210; font-size:10px; font-weight:700; width:20px; height:20px; border-radius:50%; display:grid; place-items:center; border:2px solid #1a1613; }
+  .shortlist-overlay { position:fixed; inset:0; z-index:400; background:rgba(21,18,16,0.95); backdrop-filter:blur(8px); display:none; place-items:center; padding:20px; }
+  .shortlist-overlay.open { display:grid; }
+  .shortlist-panel { max-width:800px; width:100%; max-height:80vh; background:#1a1613; border:1px solid #3a322a; border-radius:14px; padding:24px; overflow-y:auto; position:relative; }
+  .shortlist-panel .close-btn { position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; border:1px solid #3a322a; display:grid; place-items:center; color:#9a8b7a; transition:0.12s; }
+  .shortlist-panel .close-btn:hover { border-color:#d4b08c; color:#d4b08c; background:#1a1613; }
+  .shortlist-item { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid #2c2620; }
+  .shortlist-item:last-child { border-bottom:none; }
+  .shortlist-item img { width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #2c2620; background-color:#2c2620; }
+  .shortlist-item .info { flex:1; }
+  .shortlist-item .info .name { font-weight:600; color:#d4b08c; }
+  .shortlist-item .info .tag { color:#9a8b7a; font-size:13px; }
+  .shortlist-item .remove { width:28px; height:28px; border-radius:50%; border:1px solid #3a322a; display:grid; place-items:center; color:#5f5242; transition:0.12s; }
+  .shortlist-item .remove:hover { border-color:#d46a4a; color:#d46a4a; }
   @media (max-width:820px) { .title-cols, .d-cols { grid-template-columns:1fr; } .cat-grid { grid-template-columns:1fr; } .hud-stage { display:none; } .hud { padding:10px 16px; gap:8px; } }
   @media (max-width:560px) { .opts { grid-template-columns:1fr; } main { padding:20px 12px 40px; } .hud-logo { font-size:16px; } .pbtn.start { font-size:13px; padding:14px 20px; } .dest-grid { grid-template-columns:1fr; } .lang-btn { font-size:10px; padding:2px 8px; } }
 </style>
@@ -208,6 +231,10 @@
   <span class="hud-logo">WANDER<b>LAIR</b></span>
   <span class="hud-stage" id="hudStage" data-i18n="stage_title">STAGE: TITLE</span>
   <span class="hud-coins"><span class="cn on"></span><span id="hudCoins">00000</span></span>
+  <button class="icon-btn hud-shortlist" id="shortlistBtn" aria-label="Shortlist">
+    <i data-lucide="heart"></i>
+    <span class="badge-count" id="shortlistCount">0</span>
+  </button>
   <button class="icon-btn" id="sndBtn" aria-label="Toggle sound"><i data-lucide="volume-2"></i></button>
   <button class="lang-btn" id="langBtn">हिंदी</button>
 </header>
@@ -268,7 +295,7 @@
     <div class="cat-grid" id="catGrid"></div>
   </section>
 
-  <!-- Grid Screen -->
+  <!-- Grid Screen (with Search) -->
   <section class="screen" id="screen-grid">
     <div class="screen-head">
       <button class="pbtn sm" data-goto="screen-category" data-stage="POISON PICK"><i data-lucide="arrow-left"></i><span data-i18n="back">BACK</span></button>
@@ -283,6 +310,10 @@
       <button class="fbtn" data-country="CHINA" data-i18n="china">CHINA</button>
       <button class="fbtn" data-country="JAPAN" data-i18n="japan">JAPAN</button>
     </div>
+    <div class="search-row">
+      <input class="search-input" id="searchInput" type="text" placeholder="Search destinations..." data-i18n="search_placeholder" />
+      <button class="pbtn sm" id="clearSearchBtn"><i data-lucide="x"></i></button>
+    </div>
     <div class="fate-row">
       <button class="pbtn fate" id="fateGridBtn"><i data-lucide="shuffle"></i> <span data-i18n="fate_button">🎲 LET FATE DECIDE</span></button>
     </div>
@@ -295,6 +326,7 @@
       <button class="pbtn sm" data-goto="screen-grid" data-stage="SELECT LAIR"><i data-lucide="arrow-left"></i><span data-i18n="back">BACK</span></button>
       <h2 class="hx" id="dTitle"></h2>
       <div class="spacer"></div>
+      <button class="pbtn sm" id="detailShortlistBtn"><i data-lucide="heart"></i> <span id="detailShortlistLabel">Save</span></button>
     </div>
     <div id="detailBody"></div>
   </section>
@@ -310,6 +342,16 @@
   </div>
 </div>
 
+<!-- Shortlist Overlay -->
+<div class="shortlist-overlay" id="shortlistOverlay">
+  <div class="shortlist-panel">
+    <button class="close-btn" id="shortlistClose"><i data-lucide="x"></i></button>
+    <h2 style="margin-bottom:16px; color:#d4b08c;" data-i18n="shortlist_title">Your Shortlist</h2>
+    <div id="shortlistItems"></div>
+    <div id="shortlistEmpty" style="padding:40px 0; text-align:center; color:#5f5242;" data-i18n="shortlist_empty">Nothing saved yet. Heart a destination to add it.</div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast" role="status"></div>
 
@@ -322,8 +364,8 @@
 
 <script>
 /**
- * WanderLair – Fixed Image URLs using picsum.photos seeds
- * All destinations now have a 'seed' field for reliable, fast images.
+ * WanderLair – Fixed images (all via picsum, no external URLs)
+ * Added onerror fallback to show a dark placeholder.
  */
 
 const CATEGORIES = {
@@ -381,272 +423,212 @@ const STAT_META = [
 ];
 
 /**
- * Generate a picsum.photos URL with a seed.
+ * All images via picsum – no external hardcoded URLs.
+ * Seeds updated for Mumbai, Rishikesh, Shimla to give better matches.
  */
-function getImageUrl(seed, width = 800, height = 600) {
+function getImageUrl(dest, width = 800, height = 600) {
+  // Use specific seeds for these to improve relevance
+  const seedOverrides = {
+    'mumbai': 'mumbai-skyline',
+    'rishikesh': 'rishikesh-river',
+    'shimla': 'shimla-hills'
+  };
+  const seed = seedOverrides[dest.id] || dest.seed;
   return `https://picsum.photos/seed/${seed}/${width}/${height}.jpg`;
 }
 
+// Helper for onerror fallback
+function imgOnError(img) {
+  img.onerror = null; // prevent loop
+  img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%232c2620"/%3E%3Ctext x="400" y="300" font-family="sans-serif" font-size="30" fill="%235f5242" text-anchor="middle" dy=".3em"%3EImage not found%3C/text%3E%3C/svg%3E';
+}
+
 const DESTINATIONS = [
-  /* ── INDIA ── */
-  {
-    id: 'jaipur', name: 'JAIPUR', country: 'INDIA', cat: 'temple', tag: 'THE PINK CITY',
-    seed: 'wl-jaipur',
-    stats: { bling: 85, quest: 45, chill: 55, feast: 90, chaos: 60 },
-    cost: '₹2,000 to 4,000 / DAY', season: 'OCT to MAR', route: 'FLY -> JAI · TUK-TUK + METRO',
+  { id: 'jaipur', name: 'JAIPUR', country: 'INDIA', cat: 'temple', tag: 'THE PINK CITY', seed: 'wl-jaipur',
+    stats: { bling:85, quest:45, chill:55, feast:90, chaos:60 }, cost: '₹2,000 to 4,000 / DAY', season: 'OCT to MAR', route: 'FLY -> JAI · TUK-TUK + METRO',
     desc: 'Forts on hills, bazaars in pink, peacocks on rooftops. Jaipur plays like an open-world heritage map. Every gate you walk through is a cutscene.',
     quests: ['Sunrise at Amber Fort, the sheesh mahal before the crowds', 'Hawa Mahal facade + Johari Bazaar shopping crawl', 'Nahargarh Fort at sunset, whole pink city below you'],
     loot: ['Pyaaz kachori', 'Laal maas', 'Kulhad lassi', 'Ghevar'],
-    reviews: [
-      { name: 'Raja_of_Random', rating: 5, date: '3 DAYS AGO', text: 'Amber Fort at 8AM = zero crowds, full main-character energy.' },
-      { name: 'PixelPilgrim', rating: 4, date: '1 WEEK AGO', text: 'Hawa Mahal is stunning but the bazaar haggling is a genuine boss fight.' },
-      { name: 'SavePointSam', rating: 4, date: '2 WEEKS AGO', text: 'Cheap, colorful, chaotic. Bring sunscreen and patience.' }
-    ]
-  },
-  {
-    id: 'goa', name: 'GOA', country: 'INDIA', cat: 'coast', tag: 'SUSEGAD MODE',
-    seed: 'wl-goa',
-    stats: { bling: 70, quest: 30, chill: 95, feast: 85, chaos: 55 },
-    cost: '₹1,800 to 5,500 / DAY', season: 'NOV to FEB', route: 'FLY -> GOI · SCOOTER RENTAL',
+    reviews: [{ name: 'Raja_of_Random', rating:5, date:'3 DAYS AGO', text:'Amber Fort at 8AM = zero crowds, full main-character energy.'}, { name: 'PixelPilgrim', rating:4, date:'1 WEEK AGO', text:'Hawa Mahal is stunning but the bazaar haggling is a genuine boss fight.'}, { name: 'SavePointSam', rating:4, date:'2 WEEKS AGO', text:'Cheap, colorful, chaotic. Bring sunscreen and patience.'}] },
+  { id: 'goa', name: 'GOA', country: 'INDIA', cat: 'coast', tag: 'SUSEGAD MODE', seed: 'wl-goa',
+    stats: { bling:70, quest:30, chill:95, feast:85, chaos:55 }, cost: '₹1,800 to 5,500 / DAY', season: 'NOV to FEB', route: 'FLY -> GOI · SCOOTER RENTAL',
     desc: 'North for the parties, south for the silence, and Portuguese lanes in between. The official difficulty setting is Easy, and that is the point.',
     quests: ['Sunset at Ashwem, shack dinner with your feet in the sand', 'Fontainhas lanes, yellow houses and warm bakery pao', 'Dudhsagar waterfalls jeep run through the jungle'],
     loot: ['Fish curry rice', 'Pork vindaloo', 'Bebinca', 'Feni (side quest)'],
-    reviews: [
-      { name: 'SusegadSteve', rating: 5, date: '5 DAYS AGO', text: 'Went for 3 days. Stayed 3 weeks. Send help (and feni).' },
-      { name: 'AFK_Andrea', rating: 4, date: '1 WEEK AGO', text: 'Palolem at dawn is a loading screen I never want to skip.' },
-      { name: 'TurboTourist', rating: 3, date: '3 WEEKS AGO', text: 'North Goa in peak season = rush hour with better music.' }
-    ]
-  },
-  {
-    id: 'rishikesh', name: 'RISHIKESH', country: 'INDIA', cat: 'quest', tag: 'XP FARM ON THE GANGES',
-    seed: 'wl-rishikesh',
-    stats: { bling: 90, quest: 90, chill: 70, feast: 60, chaos: 45 },
-    cost: '₹1,000 to 2,500 / DAY', season: 'SEP to NOV / MAR to MAY', route: 'FLY -> DEA · 45 MIN TAXI',
+    reviews: [{ name: 'SusegadSteve', rating:5, date:'5 DAYS AGO', text:'Went for 3 days. Stayed 3 weeks. Send help (and feni).'}, { name: 'AFK_Andrea', rating:4, date:'1 WEEK AGO', text:'Palolem at dawn is a loading screen I never want to skip.'}, { name: 'TurboTourist', rating:3, date:'3 WEEKS AGO', text:'North Goa in peak season = rush hour with better music.'}] },
+  { id: 'rishikesh', name: 'RISHIKESH', country: 'INDIA', cat: 'quest', tag: 'XP FARM ON THE GANGES', seed: 'wl-rishikesh',
+    stats: { bling:90, quest:90, chill:70, feast:60, chaos:45 }, cost: '₹1,000 to 2,500 / DAY', season: 'SEP to NOV / MAR to MAY', route: 'FLY -> DEA · 45 MIN TAXI',
     desc: 'White-water rapids by day, fire-lamp ceremony by night, monkeys stealing your snacks throughout. The cheapest stat upgrade you will ever buy.',
     quests: ['Grade-III rafting run down to Ram Jhula', 'Ganga aarti at Triveni Ghat as the lamps float out', 'Trek to Neer Garh falls + the cliff jump'],
     loot: ['Aloo puri', 'Thali platters', 'Banana pancakes', 'Chai, endless'],
-    reviews: [
-      { name: 'ComboBreaker', rating: 5, date: '2 DAYS AGO', text: 'The aarti gave me an achievement I did not know existed.' },
-      { name: 'GrindsetGauri', rating: 4, date: '1 WEEK AGO', text: 'Rafting was a 10. The monkey that stole my banana was a 0.' },
-      { name: 'SoloSanya', rating: 5, date: '1 MONTH AGO', text: 'Cheapest character upgrade I have ever purchased.' }
-    ]
-  },
-  {
-    id: 'mumbai', name: 'MUMBAI', country: 'INDIA', cat: 'city', tag: 'MAXIMUM CITY',
-    seed: 'mumbai-skyline',
-    stats: { bling: 55, quest: 50, chill: 40, feast: 95, chaos: 95 },
-    cost: '₹2,500 to 6,000 / DAY', season: 'NOV to FEB', route: 'FLY -> BOM · LOCAL TRAIN (BRAVELY)',
+    reviews: [{ name: 'ComboBreaker', rating:5, date:'2 DAYS AGO', text:'The aarti gave me an achievement I did not know existed.'}, { name: 'GrindsetGauri', rating:4, date:'1 WEEK AGO', text:'Rafting was a 10. The monkey that stole my banana was a 0.'}, { name: 'SoloSanya', rating:5, date:'1 MONTH AGO', text:'Cheapest character upgrade I have ever purchased.'}] },
+  { id: 'mumbai', name: 'MUMBAI', country: 'INDIA', cat: 'city', tag: 'MAXIMUM CITY', seed: 'mumbai-skyline',
+    stats: { bling:55, quest:50, chill:40, feast:95, chaos:95 }, cost: '₹2,500 to 6,000 / DAY', season: 'NOV to FEB', route: 'FLY -> BOM · LOCAL TRAIN (BRAVELY)',
     desc: 'Bollywood dreams, colonial granite and towers of glass, all held together by the world\'s most elite street food and a sea-facing promenade that never sleeps.',
     quests: ['Sunset walk along the Marine Drive promenade', 'Street food raid: vada pav, Mohammed Ali Road kebabs', 'Elephanta caves ferry + Colaba at night'],
     loot: ['Vada pav', 'Misal', 'Seafood thali', 'Irani chai + bun maska'],
-    reviews: [
-      { name: 'LocalTrainLegend', rating: 4, date: '4 DAYS AGO', text: 'The 8:10 fast local is the hardest difficulty setting on earth.' },
-      { name: 'BollywoodBeta', rating: 5, date: '2 WEEKS AGO', text: 'Marine Drive at night is a cheat code for the soul.' },
-      { name: 'NoScopeNadia', rating: 4, date: '3 WEEKS AGO', text: 'Sensory overload (affectionate). Eat absolutely everything.' }
-    ]
-  },
-  {
-    id: 'darjeeling', name: 'DARJEELING', country: 'INDIA', cat: 'quest', tag: 'TEA & HIMALAYAS',
-    seed: 'wl-darjeeling',
-    stats: { bling: 80, quest: 85, chill: 60, feast: 70, chaos: 35 },
-    cost: '₹1,200 to 2,500 / DAY', season: 'MAR to JUN / SEP to NOV', route: 'FLY -> BAGDOGRA · TOY TRAIN',
+    reviews: [{ name: 'LocalTrainLegend', rating:4, date:'4 DAYS AGO', text:'The 8:10 fast local is the hardest difficulty setting on earth.'}, { name: 'BollywoodBeta', rating:5, date:'2 WEEKS AGO', text:'Marine Drive at night is a cheat code for the soul.'}, { name: 'NoScopeNadia', rating:4, date:'3 WEEKS AGO', text:'Sensory overload (affectionate). Eat absolutely everything.'}] },
+  { id: 'darjeeling', name: 'DARJEELING', country: 'INDIA', cat: 'quest', tag: 'TEA & HIMALAYAS', seed: 'wl-darjeeling',
+    stats: { bling:80, quest:85, chill:60, feast:70, chaos:35 }, cost: '₹1,200 to 2,500 / DAY', season: 'MAR to JUN / SEP to NOV', route: 'FLY -> BAGDOGRA · TOY TRAIN',
     desc: 'The queen of hill stations. Tea gardens on steep slopes, the Darjeeling Himalayan Railway chugging along, and a sunrise over Kanchenjunga that rewires your brain.',
     quests: ['Tiger Hill at 4 AM to catch the sun hitting Kanchenjunga', 'Ride the toy train from Ghoom to Darjeeling', 'Tea garden stroll and a factory tasting tour'],
     loot: ['Momos', 'Thukpa', 'Darjeeling first-flush tea', 'Churpee'],
-    reviews: [
-      { name: 'TeaTimeTara', rating: 5, date: '4 DAYS AGO', text: 'The toy train is the most charming commuter service on earth.' },
-      { name: 'MomoManiac', rating: 4, date: '1 WEEK AGO', text: 'Tiger Hill is worth the 4AM wake-up. Yes, really.' },
-      { name: 'HillQueen', rating: 4, date: '2 WEEKS AGO', text: 'The tea is world-class. Bring an empty bag.' }
-    ]
-  },
-  {
-    id: 'shimla', name: 'SHIMLA', country: 'INDIA', cat: 'quest', tag: 'HILL STATION',
-    seed: 'shimla-mist',
-    stats: { bling: 75, quest: 80, chill: 65, feast: 65, chaos: 40 },
-    cost: '₹1,500 to 3,000 / DAY', season: 'MAR to JUN / DEC to JAN', route: 'FLY -> CHANDIGARH · HIMALYAN QUEEN',
+    reviews: [{ name: 'TeaTimeTara', rating:5, date:'4 DAYS AGO', text:'The toy train is the most charming commuter service on earth.'}, { name: 'MomoManiac', rating:4, date:'1 WEEK AGO', text:'Tiger Hill is worth the 4AM wake-up. Yes, really.'}, { name: 'HillQueen', rating:4, date:'2 WEEKS AGO', text:'The tea is world-class. Bring an empty bag.'}] },
+  { id: 'shimla', name: 'SHIMLA', country: 'INDIA', cat: 'quest', tag: 'HILL STATION', seed: 'shimla-hills',
+    stats: { bling:75, quest:80, chill:65, feast:65, chaos:40 }, cost: '₹1,500 to 3,000 / DAY', season: 'MAR to JUN / DEC to JAN', route: 'FLY -> CHANDIGARH · HIMALYAN QUEEN',
     desc: 'The summer capital of the Raj, frozen in time. Walk the Ridge, hear church bells echo across the valleys, and sip chai while snow dusts the pines.',
     quests: ['The Ridge & Mall Road, colonial architecture and Himalayan views', 'Jakhoo Temple, 360° vistas (and monkeys)', 'Kufri biking, spin through alpine meadows'],
     loot: ['Madra', 'Sidu', 'Chai', 'Siddu'],
-    reviews: [
-      { name: 'RidgeWalker', rating: 5, date: '2 DAYS AGO', text: 'Mall Road without cars is a rare peaceful experience.' },
-      { name: 'MonkeyTrouble', rating: 3, date: '1 WEEK AGO', text: 'Watch your sunglasses at Jakhoo. The monkeys are professionals.' },
-      { name: 'SnowBoundSam', rating: 5, date: '3 WEEKS AGO', text: 'Shimla in December is a postcard come to life.' }
-    ]
-  },
-  /* ── INDONESIA ── */
-  {
-    id: 'ubud', name: 'UBUD · BALI', country: 'INDONESIA', cat: 'coast', tag: 'ISLAND OF THE GODS',
-    seed: 'wl-ubud',
-    stats: { bling: 60, quest: 55, chill: 95, feast: 80, chaos: 50 },
-    cost: '₹2,000 to 7,000 / DAY', season: 'APR to OCT', route: 'FLY -> DPS · SCOOTER / DRIVER',
+    reviews: [{ name: 'RidgeWalker', rating:5, date:'2 DAYS AGO', text:'Mall Road without cars is a rare peaceful experience.'}, { name: 'MonkeyTrouble', rating:3, date:'1 WEEK AGO', text:'Watch your sunglasses at Jakhoo. The monkeys are professionals.'}, { name: 'SnowBoundSam', rating:5, date:'3 WEEKS AGO', text:'Shimla in December is a postcard come to life.'}] },
+  { id: 'ubud', name: 'UBUD · BALI', country: 'INDONESIA', cat: 'coast', tag: 'ISLAND OF THE GODS', seed: 'wl-ubud',
+    stats: { bling:60, quest:55, chill:95, feast:80, chaos:50 }, cost: '₹2,000 to 7,000 / DAY', season: 'APR to OCT', route: 'FLY -> DPS · SCOOTER / DRIVER',
     desc: 'Rice terraces stacked like level design, temple incense in the air, and smoothie bowls with actual flowers on them. Your blood pressure quits on the spot.',
     quests: ['Tegalalang terrace sunrise + jungle swing', 'Tirta Empul water temple purification ritual', 'Campuhan ridge walk into a sunset warung'],
     loot: ['Babi guling', 'Nasi campur', 'Smoothie bowls', 'Kopi luwak'],
-    reviews: [
-      { name: 'ZenMasterZoe', rating: 5, date: '1 DAY AGO', text: 'My blood pressure is now a chill bar at 100.' },
-      { name: 'TheRealRavi', rating: 4, date: '6 DAYS AGO', text: 'Ubud traffic is a stealth mission. Rent a scooter, not a car.' },
-      { name: 'MonkeysSuck', rating: 3, date: '2 WEEKS AGO', text: 'A macaque took my sunglasses at Monkey Forest. Fair trade, honestly.' }
-    ]
-  },
-  {
-    id: 'yogyakarta', name: 'YOGYAKARTA', country: 'INDONESIA', cat: 'temple', tag: 'BOROBUDUR GATEWAY',
-    seed: 'wl-yogyakarta',
-    stats: { bling: 90, quest: 50, chill: 65, feast: 75, chaos: 40 },
-    cost: '₹1,200 to 3,000 / DAY', season: 'MAY to SEP', route: 'FLY -> YIA · JEEP TO TEMPLES',
+    reviews: [{ name: 'ZenMasterZoe', rating:5, date:'1 DAY AGO', text:'My blood pressure is now a chill bar at 100.'}, { name: 'TheRealRavi', rating:4, date:'6 DAYS AGO', text:'Ubud traffic is a stealth mission. Rent a scooter, not a car.'}, { name: 'MonkeysSuck', rating:3, date:'2 WEEKS AGO', text:'A macaque took my sunglasses at Monkey Forest. Fair trade, honestly.'}] },
+  { id: 'yogyakarta', name: 'YOGYAKARTA', country: 'INDONESIA', cat: 'temple', tag: 'BOROBUDUR GATEWAY', seed: 'wl-yogyakarta',
+    stats: { bling:90, quest:50, chill:65, feast:75, chaos:40 }, cost: '₹1,200 to 3,000 / DAY', season: 'MAY to SEP', route: 'FLY -> YIA · JEEP TO TEMPLES',
     desc: 'The world\'s largest Buddhist monument at sunrise, Hindu spires at golden hour, and a live volcano doing lava jeep tours in the background. Nonsensical value.',
     quests: ['Borobudur sunrise from Punthuk Setumbu hill', 'Prambanan at golden hour + Ramayana ballet', 'Mount Merapi jeep lava tour at dawn'],
     loot: ['Gudeg', 'Bakpia', 'Kopi jos (charcoal coffee)'],
-    reviews: [
-      { name: 'LoreEnjoyer', rating: 5, date: '2 DAYS AGO', text: 'Watching sunrise from Borobudur is straight-up endgame content.' },
-      { name: 'BakpiaBandit', rating: 4, date: '1 WEEK AGO', text: 'Kopi jos is coffee with a glowing coal in it. 10/10 would ingest again.' },
-      { name: 'TempleTina', rating: 5, date: '1 MONTH AGO', text: 'Cheapest world wonder I have ever speedran.' }
-    ]
-  },
-  {
-    id: 'komodo', name: 'KOMODO ISLANDS', country: 'INDONESIA', cat: 'quest', tag: 'DRAGON TERRITORY',
-    seed: 'wl-komodo',
-    stats: { bling: 40, quest: 100, chill: 60, feast: 55, chaos: 55 },
-    cost: '₹7,000 to 18,000 / DAY', season: 'APR to JUN', route: 'FLY -> LBJ · LIVEABOARD BOAT',
+    reviews: [{ name: 'LoreEnjoyer', rating:5, date:'2 DAYS AGO', text:'Watching sunrise from Borobudur is straight-up endgame content.'}, { name: 'BakpiaBandit', rating:4, date:'1 WEEK AGO', text:'Kopi jos is coffee with a glowing coal in it. 10/10 would ingest again.'}, { name: 'TempleTina', rating:5, date:'1 MONTH AGO', text:'Cheapest world wonder I have ever speedran.'}] },
+  { id: 'komodo', name: 'KOMODO ISLANDS', country: 'INDONESIA', cat: 'quest', tag: 'DRAGON TERRITORY', seed: 'wl-komodo',
+    stats: { bling:40, quest:100, chill:60, feast:55, chaos:55 }, cost: '₹7,000 to 18,000 / DAY', season: 'APR to JUN', route: 'FLY -> LBJ · LIVEABOARD BOAT',
     desc: 'Prehistoric dragons on dry land, manta rays underwater, and a viewpoint where three beaches of different colors argue about who is prettier. Spoiler: you win.',
     quests: ['Trek Padar Island\'s tri-bay viewpoint at dawn', 'Snorkel Manta Point, wing to wing with mantas', 'Ranger-led dragon walk + Pink Beach swim'],
     loot: ['Grilled fish on the boat', 'Sambal everything', 'Fresh coconut'],
-    reviews: [
-      { name: 'DragonSlayer99', rating: 5, date: '3 DAYS AGO', text: 'Saw a 2.5m dragon. Updated my bucket list and, briefly, my will.' },
-      { name: 'MantaRayMich', rating: 5, date: '1 WEEK AGO', text: 'Diving with mantas is the best DLC this planet ships.' },
-      { name: 'SeaSickSimon', rating: 3, date: '2 WEEKS AGO', text: 'The boat was rough. The sunsets were not.' }
-    ]
-  },
-  {
-    id: 'jakarta', name: 'JAKARTA', country: 'INDONESIA', cat: 'city', tag: 'THE BIG DURIAN',
-    seed: 'wl-jakarta',
-    stats: { bling: 65, quest: 40, chill: 35, feast: 90, chaos: 90 },
-    cost: '₹2,000 to 5,000 / DAY', season: 'MAY to SEP', route: 'FLY -> CGK · GRAB + TRANSJAKARTA',
+    reviews: [{ name: 'DragonSlayer99', rating:5, date:'3 DAYS AGO', text:'Saw a 2.5m dragon. Updated my bucket list and, briefly, my will.'}, { name: 'MantaRayMich', rating:5, date:'1 WEEK AGO', text:'Diving with mantas is the best DLC this planet ships.'}, { name: 'SeaSickSimon', rating:3, date:'2 WEEKS AGO', text:'The boat was rough. The sunsets were not.'}] },
+  { id: 'jakarta', name: 'JAKARTA', country: 'INDONESIA', cat: 'city', tag: 'THE BIG DURIAN', seed: 'wl-jakarta',
+    stats: { bling:65, quest:40, chill:35, feast:90, chaos:90 }, cost: '₹2,000 to 5,000 / DAY', season: 'MAY to SEP', route: 'FLY -> CGK · GRAB + TRANSJAKARTA',
     desc: 'Smelly, loud, delicious, undefeated. Old-town museums by day, rooftop skylines by night, and street food that punches far above its price tier.',
     quests: ['Kota Tua old town + Museum Fatahillah courtyard', 'Street food safari: sate, nasi goreng, es cendol', 'Skyline hour from a rooftop bar'],
     loot: ['Sate ayam', 'Nasi goreng gila', 'Es cendol', 'Martabak manis'],
-    reviews: [
-      { name: 'GulaPassGina', rating: 4, date: '5 DAYS AGO', text: 'Martabak at midnight should be UNESCO-listed activity.' },
-      { name: 'MallMaxxer', rating: 3, date: '1 WEEK AGO', text: 'Traffic is the true final boss. Plan teleport-adjacent routes.' },
-      { name: 'NasiGorengNate', rating: 5, date: '3 WEEKS AGO', text: 'Street food hit rate was insane. Wallet barely noticed.' }
-    ]
-  },
-  /* ── CHINA ── */
-  {
-    id: 'beijing', name: 'BEIJING', country: 'CHINA', cat: 'temple', tag: 'THE CAPITAL',
-    seed: 'wl-beijing',
-    stats: { bling: 70, quest: 60, chill: 45, feast: 95, chaos: 70 },
-    cost: '₹3,000 to 6,500 / DAY', season: 'SEP to NOV', route: 'FLY -> PEK · SUBWAY IS SUPERB',
+    reviews: [{ name: 'GulaPassGina', rating:4, date:'5 DAYS AGO', text:'Martabak at midnight should be UNESCO-listed activity.'}, { name: 'MallMaxxer', rating:3, date:'1 WEEK AGO', text:'Traffic is the true final boss. Plan teleport-adjacent routes.'}, { name: 'NasiGorengNate', rating:5, date:'3 WEEKS AGO', text:'Street food hit rate was insane. Wallet barely noticed.'}] },
+  { id: 'beijing', name: 'BEIJING', country: 'CHINA', cat: 'temple', tag: 'THE CAPITAL', seed: 'wl-beijing',
+    stats: { bling:70, quest:60, chill:45, feast:95, chaos:70 }, cost: '₹3,000 to 6,500 / DAY', season: 'SEP to NOV', route: 'FLY -> PEK · SUBWAY IS SUPERB',
     desc: 'Six hundred years of imperial lore behind one gate, a wall you can hike until your legs file a complaint, and duck carved tableside like a finisher move.',
     quests: ['Sunrise hike along the Mutianyu Great Wall (+ toboggan down)', 'Forbidden City, then the panorama from Jingshan Park', 'Hutong lanes by rickshaw + night market raid'],
     loot: ['Peking duck', 'Jianbing', 'Zhajiangmian', 'Tanghulu'],
-    reviews: [
-      { name: 'WallCrawler', rating: 5, date: '4 DAYS AGO', text: 'Mutianyu with a toboggan descent is peak game design.' },
-      { name: 'DuckDuckGoose', rating: 5, date: '1 WEEK AGO', text: 'Ate Peking duck three days straight. No regrets logged.' },
-      { name: 'HutongHero', rating: 4, date: '2 WEEKS AGO', text: 'Get the audio guide. These walls carry 600 years of lore.' }
-    ]
-  },
-  {
-    id: 'shanghai', name: 'SHANGHAI', country: 'CHINA', cat: 'city', tag: 'PEARL OF THE ORIENT',
-    seed: 'wl-shanghai',
-    stats: { bling: 55, quest: 45, chill: 50, feast: 90, chaos: 80 },
-    cost: '₹3,500 to 8,000 / DAY', season: 'MAR to MAY', route: 'FLY -> PVG · MAGLEV (!) INTO TOWN',
+    reviews: [{ name: 'WallCrawler', rating:5, date:'4 DAYS AGO', text:'Mutianyu with a toboggan descent is peak game design.'}, { name: 'DuckDuckGoose', rating:5, date:'1 WEEK AGO', text:'Ate Peking duck three days straight. No regrets logged.'}, { name: 'HutongHero', rating:4, date:'2 WEEKS AGO', text:'Get the audio guide. These walls carry 600 years of lore.'}] },
+  { id: 'shanghai', name: 'SHANGHAI', country: 'CHINA', cat: 'city', tag: 'PEARL OF THE ORIENT', seed: 'wl-shanghai',
+    stats: { bling:55, quest:45, chill:50, feast:90, chaos:80 }, cost: '₹3,500 to 8,000 / DAY', season: 'MAR to MAY', route: 'FLY -> PVG · MAGLEV (!) INTO TOWN',
     desc: 'Art-deco riverfront on one bank, sci-fi skyline on the other, and soup dumplings in between that will ruin all future dumplings for you.',
     quests: ['The Bund at dusk, Pudong\'s lights boot up across the river', 'Xiaolongbao crawl through Yu Garden\'s old lanes', 'French Concession plane-tree streets + jazz bar finish'],
     loot: ['Xiaolongbao', 'Shengjianbao', 'Scallion oil noodles'],
-    reviews: [
-      { name: 'SoupDumplingSu', rating: 5, date: '1 DAY AGO', text: 'The xiaolongbao here permanently patched my dumpling standards.' },
-      { name: 'NeonNomad', rating: 4, date: '1 WEEK AGO', text: 'The skyline plays an entrance animation every single night.' },
-      { name: 'MaglevMax', rating: 5, date: '1 MONTH AGO', text: '430 km/h from the airport. Best intro cutscene ever.' }
-    ]
-  },
-  {
-    id: 'zhangjiajie', name: 'ZHANGJIAJIE', country: 'CHINA', cat: 'quest', tag: 'AVATAR MOUNTAINS',
-    seed: 'wl-zhangjiajie',
-    stats: { bling: 60, quest: 95, chill: 40, feast: 65, chaos: 65 },
-    cost: '₹2,500 to 6,000 / DAY', season: 'APR to JUN / SEP to OCT', route: 'FLY -> DYX · PARK BUSES',
+    reviews: [{ name: 'SoupDumplingSu', rating:5, date:'1 DAY AGO', text:'The xiaolongbao here permanently patched my dumpling standards.'}, { name: 'NeonNomad', rating:4, date:'1 WEEK AGO', text:'The skyline plays an entrance animation every single night.'}, { name: 'MaglevMax', rating:5, date:'1 MONTH AGO', text:'430 km/h from the airport. Best intro cutscene ever.'}] },
+  { id: 'zhangjiajie', name: 'ZHANGJIAJIE', country: 'CHINA', cat: 'quest', tag: 'AVATAR MOUNTAINS', seed: 'wl-zhangjiajie',
+    stats: { bling:60, quest:95, chill:40, feast:65, chaos:65 }, cost: '₹2,500 to 6,000 / DAY', season: 'APR to JUN / SEP to OCT', route: 'FLY -> DYX · PARK BUSES',
     desc: 'Three-thousand sandstone pillars punching through the mist, the literal reference for Pandora. When fog rolls in, the mountains genuinely float.',
     quests: ['Yuanjiajie pillar field, the "Avatar" floats', 'Tianmen Mountain\'s 99-bend road + glass skywalk', 'Golden Whip trail, dodging level-99 thief monkeys'],
     loot: ['Tujia smoked bacon', 'Hezha rice', 'Wild mushroom hotpot'],
-    reviews: [
-      { name: 'PandoraPete', rating: 5, date: '2 DAYS AGO', text: 'Fog rolled in and the pillars literally floated. Unreal engine, real planet.' },
-      { name: 'KneesOfSteel', rating: 4, date: '1 WEEK AGO', text: '999 steps at Tianmen. My legs have filed a formal complaint.' },
-      { name: 'MonkeyBusiness', rating: 3, date: '3 WEEKS AGO', text: 'The monkeys here are level-99 thieves. Zip EVERYTHING.' }
-    ]
-  },
-  {
-    id: 'sanya', name: 'SANYA · HAINAN', country: 'CHINA', cat: 'coast', tag: 'HAWAII OF CHINA',
-    seed: 'wl-sanya',
-    stats: { bling: 55, quest: 40, chill: 100, feast: 70, chaos: 45 },
-    cost: '₹3,500 to 8,500 / DAY', season: 'OCT to APR', route: 'FLY -> SYX · RESORT SHUTTLE',
+    reviews: [{ name: 'PandoraPete', rating:5, date:'2 DAYS AGO', text:'Fog rolled in and the pillars literally floated. Unreal engine, real planet.'}, { name: 'KneesOfSteel', rating:4, date:'1 WEEK AGO', text:'999 steps at Tianmen. My legs have filed a formal complaint.'}, { name: 'MonkeyBusiness', rating:3, date:'3 WEEKS AGO', text:'The monkeys here are level-99 thieves. Zip EVERYTHING.'}] },
+  { id: 'sanya', name: 'SANYA · HAINAN', country: 'CHINA', cat: 'coast', tag: 'HAWAII OF CHINA', seed: 'wl-sanya',
+    stats: { bling:55, quest:40, chill:100, feast:70, chaos:45 }, cost: '₹3,500 to 8,500 / DAY', season: 'OCT to APR', route: 'FLY -> SYX · RESORT SHUTTLE',
     desc: 'Turquoise bay, duty-free malls, coconut in everything, and absolutely nothing on the objective list. The purest chill stat in the entire game.',
     quests: ['Yalong Bay: turquoise water + zero-effort beach day', 'First Market seafood BBQ, pick it and they cook it', 'Wuzhizhou Island snorkel hop'],
     loot: ['Wenchang chicken', 'Coconut chicken hotpot', 'Fresh coconut, directly'],
-    reviews: [
-      { name: 'BeachBumBo', rating: 5, date: '6 DAYS AGO', text: 'Did nothing for 4 days. It was everything.' },
-      { name: 'CoconutCarl', rating: 4, date: '2 WEEKS AGO', text: 'Coconut chicken hotpot is a healing potion in food form.' },
-      { name: 'PeakSeasonPaula', rating: 3, date: '1 MONTH AGO', text: 'Snowbirds everywhere in January. Book early or grind for deals.' }
-    ]
-  },
-  /* ── JAPAN ── */
-  {
-    id: 'tokyo', name: 'TOKYO', country: 'JAPAN', cat: 'city', tag: 'NEON METROPOLIS',
-    seed: 'tokyo-neon',
-    stats: { bling: 50, quest: 70, chill: 40, feast: 95, chaos: 90 },
-    cost: '₹6,000 to 12,000 / DAY', season: 'MAR to MAY / OCT to NOV', route: 'FLY -> NRT/HND · SUICA + TRAINS',
+    reviews: [{ name: 'BeachBumBo', rating:5, date:'6 DAYS AGO', text:'Did nothing for 4 days. It was everything.'}, { name: 'CoconutCarl', rating:4, date:'2 WEEKS AGO', text:'Coconut chicken hotpot is a healing potion in food form.'}, { name: 'PeakSeasonPaula', rating:3, date:'1 MONTH AGO', text:'Snowbirds everywhere in January. Book early or grind for deals.'}] },
+  { id: 'tokyo', name: 'TOKYO', country: 'JAPAN', cat: 'city', tag: 'NEON METROPOLIS', seed: 'tokyo-neon',
+    stats: { bling:50, quest:70, chill:40, feast:95, chaos:90 }, cost: '₹6,000 to 12,000 / DAY', season: 'MAR to MAY / OCT to NOV', route: 'FLY -> NRT/HND · SUICA + TRAINS',
     desc: 'Neon skyscrapers, tiny back-alley bars, conveyor-belt sushi, and a level of organized chaos that makes sense only when you are in it. Tokyo does not sleep; it just recharges.',
     quests: ['Shibuya crossing at rush hour, the human wave', 'Tsukiji outer market tuna + tamagoyaki run', 'Golden Gai bar crawl through a labyrinth of tiny pubs'],
     loot: ['Sushi', 'Ramen', 'Matcha parfait', 'Yakitori'],
-    reviews: [
-      { name: 'NeonSamurai', rating: 5, date: '1 DAY AGO', text: 'Shibuya crossing at 6PM is a core memory unlocked.' },
-      { name: 'RamenRyu', rating: 4, date: '3 DAYS AGO', text: 'The ramen here is better than therapy. Fight me.' },
-      { name: 'LostInTokyo', rating: 4, date: '1 WEEK AGO', text: 'Getting lost in Shinjuku is the best side quest.' }
-    ]
-  },
-  {
-    id: 'kyoto', name: 'KYOTO', country: 'JAPAN', cat: 'temple', tag: 'SHRINE CITY',
-    seed: 'kyoto-shrines',
-    stats: { bling: 70, quest: 65, chill: 85, feast: 80, chaos: 45 },
-    cost: '₹5,000 to 10,000 / DAY', season: 'MAR to MAY / OCT to NOV', route: 'FLY -> KIX · HARUKA EXPRESS',
+    reviews: [{ name: 'NeonSamurai', rating:5, date:'1 DAY AGO', text:'Shibuya crossing at 6PM is a core memory unlocked.'}, { name: 'RamenRyu', rating:4, date:'3 DAYS AGO', text:'The ramen here is better than therapy. Fight me.'}, { name: 'LostInTokyo', rating:4, date:'1 WEEK AGO', text:'Getting lost in Shinjuku is the best side quest.'}] },
+  { id: 'kyoto', name: 'KYOTO', country: 'JAPAN', cat: 'temple', tag: 'SHRINE CITY', seed: 'kyoto-shrines',
+    stats: { bling:70, quest:65, chill:85, feast:80, chaos:45 }, cost: '₹5,000 to 10,000 / DAY', season: 'MAR to MAY / OCT to NOV', route: 'FLY -> KIX · HARUKA EXPRESS',
     desc: 'A thousand shrines, bamboo groves, geisha footsteps on cobblestones, and a golden pavilion that reflects perfectly in still water. Kyoto is the soul of Japan, distilled.',
     quests: ['Fushimi Inari at dawn, red gates up the mountain', 'Arashiyama bamboo path before the crowds', 'Kinkaku-ji golden temple at sunset'],
     loot: ['Matcha soft serve', 'Yudofu', 'Kaiseki bento', 'Sake'],
-    reviews: [
-      { name: 'GateCrawler', rating: 5, date: '2 DAYS AGO', text: 'Fushimi Inari at 6AM is pure magic. No crowd, just gates.' },
-      { name: 'BambooBabe', rating: 5, date: '4 DAYS AGO', text: 'Arashiyama bamboo grove = the loading screen of dreams.' },
-      { name: 'GreenTeaGuru', rating: 4, date: '1 WEEK AGO', text: 'Matcha soft serve should be a UNESCO heritage food.' }
-    ]
-  },
-  {
-    id: 'okinawa', name: 'OKINAWA', country: 'JAPAN', cat: 'coast', tag: 'TROPICAL PARADISE',
-    seed: 'okinawa-coast',
-    stats: { bling: 60, quest: 45, chill: 100, feast: 70, chaos: 35 },
-    cost: '₹5,500 to 11,000 / DAY', season: 'APR to OCT', route: 'FLY -> OKA · RENTAL CAR',
+    reviews: [{ name: 'GateCrawler', rating:5, date:'2 DAYS AGO', text:'Fushimi Inari at 6AM is pure magic. No crowd, just gates.'}, { name: 'BambooBabe', rating:5, date:'4 DAYS AGO', text:'Arashiyama bamboo grove = the loading screen of dreams.'}, { name: 'GreenTeaGuru', rating:4, date:'1 WEEK AGO', text:'Matcha soft serve should be a UNESCO heritage food.'}] },
+  { id: 'okinawa', name: 'OKINAWA', country: 'JAPAN', cat: 'coast', tag: 'TROPICAL PARADISE', seed: 'okinawa-coast',
+    stats: { bling:60, quest:45, chill:100, feast:70, chaos:35 }, cost: '₹5,500 to 11,000 / DAY', season: 'APR to OCT', route: 'FLY -> OKA · RENTAL CAR',
     desc: 'Turquoise water, coral reefs, and a laid-back island rhythm that feels more Pacific than Japanese. Okinawa is where the hustle ends and the horizon begins.',
     quests: ['Churaumi Aquarium, whale sharks at eye level', 'Cape Manzamo at sunset, limestone cliff drama', 'Snorkel the Kerama Islands, clear water, endless fish'],
     loot: ['Okinawan soba', 'Taco rice', 'Sata andagi', 'Awamori'],
-    reviews: [
-      { name: 'WhaleSharkWill', rating: 5, date: '1 DAY AGO', text: 'Churaumi Aquarium is worth the entire flight. Whale sharks are astronauts of the sea.' },
-      { name: 'SunsetSam', rating: 4, date: '3 DAYS AGO', text: 'Cape Manzamo sunset is the best free show on earth.' },
-      { name: 'IslandIdle', rating: 5, date: '2 WEEKS AGO', text: 'Did nothing for 3 days. It was everything.' }
-    ]
-  },
-  {
-    id: 'hakone', name: 'HAKONE', country: 'JAPAN', cat: 'quest', tag: 'ONSEN & FUJI VIEWS',
-    seed: 'hakone-fuji',
-    stats: { bling: 75, quest: 85, chill: 90, feast: 65, chaos: 30 },
-    cost: '₹6,000 to 12,000 / DAY', season: 'YEAR-ROUND', route: 'ODAKYU EXPRESS FROM TOKYO',
+    reviews: [{ name: 'WhaleSharkWill', rating:5, date:'1 DAY AGO', text:'Churaumi Aquarium is worth the entire flight. Whale sharks are astronauts of the sea.'}, { name: 'SunsetSam', rating:4, date:'3 DAYS AGO', text:'Cape Manzamo sunset is the best free show on earth.'}, { name: 'IslandIdle', rating:5, date:'2 WEEKS AGO', text:'Did nothing for 3 days. It was everything.'}] },
+  { id: 'hakone', name: 'HAKONE', country: 'JAPAN', cat: 'quest', tag: 'ONSEN & FUJI VIEWS', seed: 'hakone-fuji',
+    stats: { bling:75, quest:85, chill:90, feast:65, chaos:30 }, cost: '₹6,000 to 12,000 / DAY', season: 'YEAR-ROUND', route: 'ODAKYU EXPRESS FROM TOKYO',
     desc: 'Volcanic steam rising from the valley, a ropeway over boiling sulfur pools, and the silhouette of Mount Fuji appearing through the clouds. Hakone is a bath for the body and the eyes.',
     quests: ['Hakone Ropeway over Owakudani Valley, egg boiled in sulfur', 'Lake Ashi pirate ship cruise with Fuji views', 'Open-air onsen with mountain views'],
     loot: ['Kuro-tamago (black eggs)', 'Hakone soba', 'Kamaboko', 'Onsen tamago'],
-    reviews: [
-      { name: 'OnsenOscar', rating: 5, date: '2 DAYS AGO', text: 'Soaking in an open-air onsen with Fuji in the background is a life achievement.' },
-      { name: 'RopewayRia', rating: 4, date: '4 DAYS AGO', text: 'The black eggs are gimmicky but the views are 10/10.' },
-      { name: 'FujiFanatic', rating: 5, date: '1 WEEK AGO', text: 'Fuji appeared through the clouds. I almost cried.' }
-    ]
-  }
+    reviews: [{ name: 'OnsenOscar', rating:5, date:'2 DAYS AGO', text:'Soaking in an open-air onsen with Fuji in the background is a life achievement.'}, { name: 'RopewayRia', rating:4, date:'4 DAYS AGO', text:'The black eggs are gimmicky but the views are 10/10.'}, { name: 'FujiFanatic', rating:5, date:'1 WEEK AGO', text:'Fuji appeared through the clouds. I almost cried.'}] }
 ];
 
-// ---------------------- LANGUAGE / I18N -------------------------
+/* ── SHORTLIST STATE ── */
+let shortlist = [];
+const SHORTLIST_KEY = 'wl_shortlist';
+
+function loadShortlist() {
+  try { shortlist = JSON.parse(localStorage.getItem(SHORTLIST_KEY)) || []; } catch(e) { shortlist = []; }
+}
+function saveShortlist() {
+  try { localStorage.setItem(SHORTLIST_KEY, JSON.stringify(shortlist)); } catch(e) {}
+  updateShortlistUI();
+}
+function toggleShortlist(id) {
+  const idx = shortlist.indexOf(id);
+  if (idx === -1) { shortlist.push(id); } else { shortlist.splice(idx, 1); }
+  saveShortlist();
+  if (document.getElementById('screen-grid').classList.contains('active')) renderGrid();
+  if (document.getElementById('screen-detail').classList.contains('active')) {
+    const currentId = document.getElementById('dTitle').dataset?.id;
+    if (currentId) openDetail(currentId);
+  }
+  renderShortlistOverlay();
+}
+function isShortlisted(id) { return shortlist.includes(id); }
+function updateShortlistUI() {
+  document.getElementById('shortlistCount').textContent = shortlist.length;
+  if (document.getElementById('shortlistOverlay').classList.contains('open')) renderShortlistOverlay();
+}
+function renderShortlistOverlay() {
+  const container = document.getElementById('shortlistItems');
+  const empty = document.getElementById('shortlistEmpty');
+  if (shortlist.length === 0) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  container.innerHTML = shortlist.map(id => {
+    const d = DESTINATIONS.find(x => x.id === id);
+    if (!d) return '';
+    return `<div class="shortlist-item" data-id="${d.id}">
+      <img src="${getImageUrl(d, 120, 120)}" alt="${d.name}" onerror="imgOnError(this)">
+      <div class="info">
+        <div class="name">${d.name}</div>
+        <div class="tag">${d.tag} · ${d.country}</div>
+      </div>
+      <button class="remove" data-id="${d.id}"><i data-lucide="x"></i></button>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('.remove').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleShortlist(this.dataset.id);
+    });
+  });
+  container.querySelectorAll('.shortlist-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const id = this.dataset.id;
+      document.getElementById('shortlistOverlay').classList.remove('open');
+      openDetail(id);
+    });
+  });
+  renderIcons();
+}
+document.getElementById('shortlistBtn').addEventListener('click', function() {
+  document.getElementById('shortlistOverlay').classList.toggle('open');
+  renderShortlistOverlay();
+});
+document.getElementById('shortlistClose').addEventListener('click', function() {
+  document.getElementById('shortlistOverlay').classList.remove('open');
+});
+document.getElementById('shortlistOverlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+/* ── LANGUAGE ── */
 let currentLanguage = 'en';
 const translations = {
   en: {
@@ -670,6 +652,7 @@ const translations = {
     indonesia: 'INDONESIA',
     china: 'CHINA',
     japan: 'JAPAN',
+    search_placeholder: 'Search destinations...',
     fate_button: '🎲 LET FATE DECIDE',
     stage_clear: 'STAGE CLEAR!',
     archetype_unlocked: 'ARCHETYPE UNLOCKED',
@@ -677,6 +660,8 @@ const translations = {
     footer_line1: '16 LAIRS · 4 REALMS · 4 ADVENTURES · NO REAL COINS WERE CHARGED',
     footer_line2: 'PRESS START ON YOUR WEEKEND',
     reset_data: 'RESET SAVE DATA',
+    shortlist_title: 'Your Shortlist',
+    shortlist_empty: 'Nothing saved yet. Heart a destination to add it.',
   },
   hi: {
     stage_title: 'स्टेज: टाइटल',
@@ -699,6 +684,7 @@ const translations = {
     indonesia: 'इंडोनेशिया',
     china: 'चीन',
     japan: 'जापान',
+    search_placeholder: 'ठिकाने खोजें...',
     fate_button: '🎲 किस्मत आज़माएं',
     stage_clear: 'स्टेज क्लियर!',
     archetype_unlocked: 'आर्किटाइप अनलॉक',
@@ -706,23 +692,24 @@ const translations = {
     footer_line1: '16 ठिकाने · 4 क्षेत्र · 4 सफर · कोई वास्तविक सिक्के नहीं',
     footer_line2: 'अपने सप्ताहांत पर स्टार्ट दबाएं',
     reset_data: 'सेव डेटा रीसेट करें',
+    shortlist_title: 'आपकी सूची',
+    shortlist_empty: 'अभी कुछ सहेजा नहीं गया। किसी ठिकाने को दिल से जोड़ें।',
   }
 };
 
 function applyLanguage(lang) {
   currentLanguage = lang;
-  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang] && translations[lang][key] !== undefined) {
       el.innerHTML = translations[lang][key];
     }
   });
-  // Update quiz if visible
-  if (document.getElementById('screen-quiz').classList.contains('active') && appState.questionIndex < QUIZ_QUESTIONS.length) {
-    renderQuiz();
-  }
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = translations[lang]['search_placeholder'] || 'Search destinations...';
+  if (document.getElementById('screen-quiz').classList.contains('active') && appState.questionIndex < QUIZ_QUESTIONS.length) renderQuiz();
   if (document.getElementById('screen-category').classList.contains('active')) renderCategories();
-  document.querySelectorAll('.fbtn').forEach(function(b) {
+  document.querySelectorAll('.fbtn').forEach(b => {
     const key = b.getAttribute('data-i18n');
     if (key) b.textContent = translations[lang][key] || b.textContent;
   });
@@ -733,11 +720,8 @@ function applyLanguage(lang) {
   }
   const archChip = document.getElementById('archChip');
   if (archChip) {
-    if (appState.archetype) {
-      archChip.textContent = (lang === 'hi' ? 'बिल्ड: ' : 'BUILD: ') + appState.archetype;
-    } else {
-      archChip.textContent = translations[lang]['any_build'];
-    }
+    if (appState.archetype) archChip.textContent = (lang === 'hi' ? 'बिल्ड: ' : 'BUILD: ') + appState.archetype;
+    else archChip.textContent = translations[lang]['any_build'];
   }
   document.getElementById('resetBtn').textContent = translations[lang]['reset_data'];
   document.querySelector('.sc-title').textContent = translations[lang]['stage_clear'];
@@ -747,7 +731,7 @@ function applyLanguage(lang) {
   document.documentElement.lang = lang;
 }
 
-// ---------------------- APP STATE -------------------------
+/* ── APP STATE ── */
 const appState = {
   questionIndex: 0,
   weights: { temple: 0, coast: 0, quest: 0, city: 0 },
@@ -755,6 +739,7 @@ const appState = {
   recommendedCategory: null,
   currentCategory: null,
   countryFilter: 'ALL',
+  searchTerm: '',
   coins: 0,
   visitedDestinations: new Set(),
   currentRating: 0
@@ -762,7 +747,7 @@ const appState = {
 
 let audioContext = null;
 let isMuted = false;
-try { isMuted = localStorage.getItem('wl_muted') === '1'; } catch (e) {}
+try { isMuted = localStorage.getItem('wl_muted') === '1'; } catch(e) {}
 
 function playTone(freq, dur = 0.07, type = 'square', gain = 0.045, offset = 0) {
   if (isMuted) return;
@@ -777,7 +762,7 @@ function playTone(freq, dur = 0.07, type = 'square', gain = 0.045, offset = 0) {
     g.gain.setValueAtTime(gain, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     osc.start(t); osc.stop(t + dur + 0.02);
-  } catch (e) {}
+  } catch(e) {}
 }
 
 const sfx = {
@@ -820,31 +805,27 @@ function navigateTo(screenId, stageName) {
   sfx.blip();
 }
 
-// --- Reviews storage ---
+/* ── Reviews ── */
 const REVIEWS_KEY = 'wl_reviews_v1';
 function getUserReviews() { try { return JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {}; } catch(e) { return {}; } }
 function saveUserReviews(obj) { try { localStorage.setItem(REVIEWS_KEY, JSON.stringify(obj)); } catch(e) {} }
-
 function getAllReviews(dest) {
   const custom = getUserReviews()[dest.id] || [];
   return [...dest.reviews, ...custom];
 }
-
 function calcAvg(dest) {
   const all = getAllReviews(dest);
   if (!all.length) return 0;
   return all.reduce((s, r) => s + r.rating, 0) / all.length;
 }
-
 function coinRow(rating) {
   let html = '';
-  for (let i = 0; i < 5; i++) html += `<i class="cn ${i < rating ? 'on' : ''}"></i>`;
+  for (let i=0; i<5; i++) html += `<i class="cn ${i < rating ? 'on' : ''}"></i>`;
   return html;
 }
 
-// --- Attract mode ---
+/* ── Attract ── */
 let attractTimer = null, attractIdx = Math.floor(Math.random() * DESTINATIONS.length);
-
 function startAttractMode() {
   stopAttractMode();
   renderAttract();
@@ -853,32 +834,26 @@ function startAttractMode() {
     renderAttract();
   }, 3400);
 }
-
 function stopAttractMode() {
   if (attractTimer) { clearInterval(attractTimer); attractTimer = null; }
 }
-
 function renderAttract() {
   const d = DESTINATIONS[attractIdx];
   const avg = calcAvg(d).toFixed(1);
   document.getElementById('attract').innerHTML = `
-    <img src="${getImageUrl(d.seed, 640, 360)}" alt="${d.name}">
+    <img src="${getImageUrl(d, 640, 360)}" alt="${d.name}" onerror="imgOnError(this)">
     <span class="attract-tag">${CATEGORIES[d.cat].name}</span>
     <div class="attract-name">${d.name}</div>
     <div class="attract-meta">${d.country} · ${d.tag} · AVG ${avg} COINS</div>
   `;
 }
-
-document.getElementById('attract').addEventListener('click', function() {
-  stopAttractMode();
-  openDetail(DESTINATIONS[attractIdx].id);
-});
+document.getElementById('attract').addEventListener('click', function() { stopAttractMode(); openDetail(DESTINATIONS[attractIdx].id); });
 document.getElementById('attract').addEventListener('mouseenter', stopAttractMode);
 document.getElementById('attract').addEventListener('mouseleave', function() {
   if (document.getElementById('screen-title').classList.contains('active')) startAttractMode();
 });
 
-// --- Highscores ---
+/* ── Highscores ── */
 function renderHighscores() {
   const top = [...DESTINATIONS].sort((a,b) => calcAvg(b) - calcAvg(a)).slice(0,3);
   const ranks = ['1ST','2ND','3RD'];
@@ -894,7 +869,7 @@ function renderHighscores() {
   });
 }
 
-// --- Quiz ---
+/* ── Quiz ── */
 document.getElementById('btnStart').addEventListener('click', function() {
   resetQuiz();
   navigateTo('screen-quiz', 'PLAYER SETUP');
@@ -981,15 +956,12 @@ document.getElementById('stageClear').addEventListener('click', function() {
   navigateTo('screen-category', 'POISON PICK');
 });
 
-// --- Categories ---
+/* ── Categories ── */
 function renderCategories() {
   const anyLabel = currentLanguage === 'hi' ? 'कोई भी बिल्ड' : 'ANY BUILD';
   const archChip = document.getElementById('archChip');
-  if (appState.archetype) {
-    archChip.textContent = (currentLanguage === 'hi' ? 'बिल्ड: ' : 'BUILD: ') + appState.archetype;
-  } else {
-    archChip.textContent = anyLabel;
-  }
+  if (appState.archetype) archChip.textContent = (currentLanguage === 'hi' ? 'बिल्ड: ' : 'BUILD: ') + appState.archetype;
+  else archChip.textContent = anyLabel;
   document.getElementById('catGrid').innerHTML = CATEGORY_KEYS.map(key => {
     const c = CATEGORIES[key];
     const count = DESTINATIONS.filter(d => d.cat === key).length;
@@ -1018,7 +990,7 @@ function selectCategory(key) {
   renderGrid();
 }
 
-// --- Grid ---
+/* ── Grid with Search & Filter ── */
 document.getElementById('filterBar').querySelectorAll('.fbtn').forEach(b => {
   b.addEventListener('click', function() {
     appState.countryFilter = this.dataset.country;
@@ -1028,8 +1000,21 @@ document.getElementById('filterBar').querySelectorAll('.fbtn').forEach(b => {
   });
 });
 
+document.getElementById('searchInput').addEventListener('input', function() {
+  appState.searchTerm = this.value.trim().toLowerCase();
+  renderGrid();
+});
+document.getElementById('clearSearchBtn').addEventListener('click', function() {
+  document.getElementById('searchInput').value = '';
+  appState.searchTerm = '';
+  renderGrid();
+});
+
 function renderGrid() {
-  const list = DESTINATIONS.filter(d => d.cat === appState.currentCategory && (appState.countryFilter === 'ALL' || d.country === appState.countryFilter));
+  let list = DESTINATIONS.filter(d => d.cat === appState.currentCategory && (appState.countryFilter === 'ALL' || d.country === appState.countryFilter));
+  if (appState.searchTerm) {
+    list = list.filter(d => d.name.toLowerCase().includes(appState.searchTerm) || d.tag.toLowerCase().includes(appState.searchTerm) || d.country.toLowerCase().includes(appState.searchTerm));
+  }
   const grid = document.getElementById('destGrid');
   if (list.length) {
     grid.innerHTML = list.map(d => {
@@ -1038,30 +1023,47 @@ function renderGrid() {
       ['bling','quest','chill'].forEach(k => {
         bars += `<span class="mb"><em>${k.toUpperCase()}</em><span class="bar"><i data-width="${d.stats[k]}"></i></span></span>`;
       });
+      const saved = isShortlisted(d.id);
       return `<button class="dest" data-id="${d.id}">
         <span class="dest-img">
-          <img src="${getImageUrl(d.seed, 480, 320)}" alt="${d.name}" loading="lazy">
+          <img src="${getImageUrl(d, 480, 320)}" alt="${d.name}" loading="lazy" onerror="imgOnError(this)">
           <span class="dest-cat">${CATEGORIES[d.cat].name}</span>
         </span>
         <span class="dest-name">${d.name}</span>
         <span class="dest-tag">${d.tag} · ${d.country}</span>
         <span class="dest-bars">${bars}</span>
         <span class="dest-foot">${coinRow(Math.round(avg))}<span class="avg">${avg.toFixed(1)}</span></span>
+        <div class="dest-actions">
+          <button class="shortlist-toggle ${saved ? 'saved' : ''}" data-id="${d.id}"><i data-lucide="${saved ? 'heart' : 'heart'}"></i></button>
+        </div>
       </button>`;
     }).join('');
-    grid.querySelectorAll('.dest').forEach(b => b.addEventListener('click', function() { openDetail(this.dataset.id); }));
+    grid.querySelectorAll('.dest').forEach(b => b.addEventListener('click', function(e) {
+      if (e.target.closest('.shortlist-toggle')) return;
+      openDetail(this.dataset.id);
+    }));
+    grid.querySelectorAll('.shortlist-toggle').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleShortlist(this.dataset.id);
+      });
+    });
     requestAnimationFrame(() => {
       grid.querySelectorAll('.bar i').forEach(el => el.style.width = el.dataset.width + '%');
     });
   } else {
-    const msg = currentLanguage === 'hi' ? 'इस सेक्टर में कोई ठिकाना नहीं। दूसरा क्षेत्र आजमाएं।' : 'NO LAIRS IN THIS SECTOR. TRY ANOTHER REALM.';
+    const msg = currentLanguage === 'hi' ? 'इस सेक्टर में कोई ठिकाना नहीं।' : 'No lairs match your criteria.';
     grid.innerHTML = `<div class="empty-msg">${msg}</div>`;
   }
+  renderIcons();
 }
 
 document.getElementById('fateGridBtn').addEventListener('click', function() {
-  const list = DESTINATIONS.filter(d => d.cat === appState.currentCategory && (appState.countryFilter === 'ALL' || d.country === appState.countryFilter));
-  if (!list.length) { showToast(currentLanguage === 'hi' ? 'इस सेक्टर में कोई ठिकाना नहीं!' : 'No lairs in this sector!'); return; }
+  let list = DESTINATIONS.filter(d => d.cat === appState.currentCategory && (appState.countryFilter === 'ALL' || d.country === appState.countryFilter));
+  if (appState.searchTerm) {
+    list = list.filter(d => d.name.toLowerCase().includes(appState.searchTerm) || d.tag.toLowerCase().includes(appState.searchTerm) || d.country.toLowerCase().includes(appState.searchTerm));
+  }
+  if (!list.length) { showToast(currentLanguage === 'hi' ? 'कोई ठिकाना नहीं!' : 'No lairs found!'); return; }
   const r = list[Math.floor(Math.random() * list.length)];
   showToast((currentLanguage === 'hi' ? '🎲 किस्मत ने चुना: ' : '🎲 Fate chose: ') + r.name);
   setTimeout(() => openDetail(r.id), 400);
@@ -1074,7 +1076,7 @@ document.getElementById('fateCatBtn').addEventListener('click', function() {
   setTimeout(() => selectCategory(key), 400);
 });
 
-// --- Keyboard navigation on grid ---
+/* ── Keyboard nav ── */
 document.addEventListener('keydown', function(e) {
   if (!document.getElementById('screen-grid').classList.contains('active')) return;
   if (!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
@@ -1098,7 +1100,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// --- Detail ---
+/* ── Detail ── */
 function openDetail(id) {
   const d = DESTINATIONS.find(x => x.id === id);
   if (!d) return;
@@ -1110,6 +1112,7 @@ function openDetail(id) {
     showToast(currentLanguage === 'hi' ? '+50 सिक्के, दस्तावेज़ खुला' : '+50 COINS, DOSSIER UNLOCKED');
   }
   document.getElementById('dTitle').textContent = d.name;
+  document.getElementById('dTitle').dataset.id = id;
   const avg = calcAvg(d);
   const reviews = getAllReviews(d);
   let statsHTML = STAT_META.map(([k,l]) => `<div class="stat-row"><em>${l}</em><span class="bar"><i data-width="${d.stats[k]}"></i></span></div>`).join('');
@@ -1129,6 +1132,10 @@ function openDetail(id) {
   let rateBtns = '';
   for (let i=1; i<=5; i++) rateBtns += `<button class="rate-btn" data-rating="${i}"><i class="cn ${i <= appState.currentRating ? 'on' : ''}"></i></button>`;
 
+  const saved = isShortlisted(id);
+  document.getElementById('detailShortlistBtn').innerHTML = `<i data-lucide="heart"></i> <span id="detailShortlistLabel">${saved ? 'Saved' : 'Save'}</span>`;
+  renderIcons();
+
   document.getElementById('detailBody').innerHTML = `
     <div class="d-head">
       <span class="badge co">${d.country}</span>
@@ -1137,7 +1144,7 @@ function openDetail(id) {
     </div>
     <div class="d-cols">
       <div>
-        <img class="d-photo" src="${getImageUrl(d.seed, 800, 520)}" alt="${d.name}">
+        <img class="d-photo" src="${getImageUrl(d, 800, 520)}" alt="${d.name}" onerror="imgOnError(this)">
         <div class="pbox" style="margin-top:18px">
           <div class="pbox-h"><i data-lucide="gauge"></i>STAT SHEET</div>
           ${statsHTML}
@@ -1190,6 +1197,13 @@ function openDetail(id) {
     </div>
   `;
 
+  document.getElementById('detailShortlistBtn').addEventListener('click', function() {
+    toggleShortlist(id);
+    const savedNow = isShortlisted(id);
+    document.getElementById('detailShortlistBtn').innerHTML = `<i data-lucide="heart"></i> <span id="detailShortlistLabel">${savedNow ? 'Saved' : 'Save'}</span>`;
+    renderIcons();
+  });
+
   requestAnimationFrame(() => {
     document.getElementById('detailBody').querySelectorAll('.bar i').forEach(el => el.style.width = el.dataset.width + '%');
   });
@@ -1228,7 +1242,7 @@ function openDetail(id) {
   renderIcons();
 }
 
-// --- Navigation for back buttons ---
+/* ── Navigation ── */
 document.querySelectorAll('[data-goto]').forEach(b => {
   b.addEventListener('click', function() {
     sfx.back();
@@ -1236,7 +1250,7 @@ document.querySelectorAll('[data-goto]').forEach(b => {
   });
 });
 
-// --- Sound toggle ---
+/* ── Sound ── */
 function renderSoundButton() {
   document.getElementById('sndBtn').innerHTML = `<i data-lucide="${isMuted ? 'volume-x' : 'volume-2'}"></i>`;
   renderIcons();
@@ -1248,24 +1262,28 @@ document.getElementById('sndBtn').addEventListener('click', function() {
   if (!isMuted) sfx.coin();
 });
 
-// --- Reset ---
+/* ── Reset ── */
 document.getElementById('resetBtn').addEventListener('click', function() {
-  try { localStorage.removeItem(REVIEWS_KEY); } catch(e) {}
+  try { localStorage.removeItem(REVIEWS_KEY); localStorage.removeItem(SHORTLIST_KEY); } catch(e) {}
   appState.coins = 0;
   appState.visitedDestinations.clear();
+  shortlist = [];
   document.getElementById('hudCoins').textContent = '00000';
+  updateShortlistUI();
   renderHighscores();
   showToast(currentLanguage === 'hi' ? 'सेव डेटा मिटा दिया गया, नया गेम+' : 'SAVE DATA WIPED, NEW GAME+');
   sfx.back();
 });
 
-// --- Language toggle ---
+/* ── Language ── */
 document.getElementById('langBtn').addEventListener('click', function() {
   const next = currentLanguage === 'en' ? 'hi' : 'en';
   applyLanguage(next);
 });
 
-// --- INIT ---
+/* ── INIT ── */
+loadShortlist();
+updateShortlistUI();
 renderSoundButton();
 renderHighscores();
 startAttractMode();
